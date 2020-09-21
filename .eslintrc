@@ -1,0 +1,27 @@
+{
+  "extends": ["airbnb"],
+  "plugins": ["import"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["react_minimum", "./src"]
+        ],
+        "extensions": [".js", ".es", ".jsx"]
+      }
+    }
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "env": {"browser": true, "es6": true},
+  "globals": {},
+  "rules": {
+    "no-plusplus": "off",
+    "react/prop-types": "off",
+    "react/destructuring-assignment": "off",
+    "max-len": ["error", { "code": 100 }],
+    "max-lines": ["error", { "max": 500 }],
+    "max-classes-per-file": ["error", 5]
+  }
+}
