@@ -5,7 +5,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/view/main.jsx',
+  entry: {
+    app: ['./src/view/main.jsx']
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
@@ -28,6 +30,7 @@ module.exports = {
             ['@babel/preset-env', { modules: false }],
             '@babel/preset-react',
           ],
+          plugins: ['@babel/plugin-transform-runtime'],
         },
       },
     ],
