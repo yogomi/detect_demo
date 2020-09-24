@@ -31,6 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', express.static('./public/view'));
+app.use('/css', express.static('./src/view/css'));
 app.use('/detected-images', express.static('./public/tmp'));
 app.use('/api/v1/detect', require('./public/server/detect').default);
 

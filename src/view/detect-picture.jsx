@@ -103,7 +103,7 @@ export default class DetectPicture extends React.Component {
     let ShowDetectedImage = () => {
       const { detectedFileUrl } = this.state;
       if (detectedFileUrl !== null) {
-        return <img src={detectedFileUrl} />
+        return <img className='detect-image' src={detectedFileUrl} />
       }
       return <div />
     }
@@ -111,7 +111,7 @@ export default class DetectPicture extends React.Component {
       <div>
         <SetUploadForm />
         <ShowDetectedImage />
-        <img src={this.state.imagePreviewUrl} />
+        <img className='detect-image' src={this.state.imagePreviewUrl} />
         <p>{this.state.result}</p>
       </div>
     )
