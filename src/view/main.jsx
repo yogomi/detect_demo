@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import UploadFile from './upload-file';
+import DetectPicture from './detect-picture';
 
 function Root() {
   return (
     <div>
       <h1>Detect test</h1>
-      <UploadFile />
+      <DetectPicture />
     </div>
   );
 }
