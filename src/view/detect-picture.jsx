@@ -5,7 +5,8 @@ export default class DetectPicture extends React.Component {
     super(props);
     this.state = {
       imagePreviewUrl: null,
-      detectedFileUrl: null
+      detectedFileUrl: null,
+      detectingMessage: ''
     }
 
     this.getDetectedImageInterval = null;
@@ -21,6 +22,9 @@ export default class DetectPicture extends React.Component {
   }
 
   async getDetectedImage() {
+    let { detectingMessage } = this.state;
+    detectingMessage = `${detectingMessage}🍣`;
+    this.setState({detectingMessage});
     if (this.detectedFilename == null) {
       return;
     }
@@ -59,6 +63,7 @@ export default class DetectPicture extends React.Component {
     reader.onloadend = () => {
       this.setState({
         imagePreviewUrl: reader.result,
+        detectingMessage: 'On detecting ',
         detectedFileUrl: null
       });
     }
@@ -100,6 +105,12 @@ export default class DetectPicture extends React.Component {
       }
       return <div />
     }
+    let ShowDetectingMessage = () => {
+      if (this.getDetectedImageInterval !== null) {
+        return <p>{this.state.detectingMessage}</p>
+      }
+      return <div />
+    }
     let ShowDetectedImage = () => {
       const { detectedFileUrl } = this.state;
       if (detectedFileUrl !== null) {
@@ -110,6 +121,7 @@ export default class DetectPicture extends React.Component {
     return (
       <div>
         <SetUploadForm />
+        <ShowDetectingMessage />
         <ShowDetectedImage />
         <img className='detect-image' src={this.state.imagePreviewUrl} />
         <p>{this.state.result}</p>
