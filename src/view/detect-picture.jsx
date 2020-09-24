@@ -63,7 +63,7 @@ export default class DetectPicture extends React.Component {
     reader.onloadend = () => {
       this.setState({
         imagePreviewUrl: reader.result,
-        detectingMessage: 'On detecting ',
+        detectingMessage: 'Detecting ',
         detectedFileUrl: null
       });
     }
