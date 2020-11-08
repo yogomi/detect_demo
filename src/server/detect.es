@@ -34,6 +34,9 @@ router.post(
     const conf_file = 'python_src/configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml'
     let options = 'MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl';
     options = `${options} MODEL.DEVICE cpu`;
+    options = `${options} MODEL.ROI_HEADS.SCORE_THRESH_TEST ${req.body.scoreThreshTest}`;
+    options = `${options} TEST.DETECTIONS_PER_IMAGE ${req.body.detectionsPerImage}`;
+    console.log(options);
     let command = 'python3 python_src/demo.py';
     command = `${command} --config-file ${conf_file}`;
     command = `${command} --input ${req.file.path}`;

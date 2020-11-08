@@ -53,12 +53,14 @@ export default class DetectPicture extends React.Component {
     }
   }
 
-  executeDetect(targetFileObject) {
+  executeDetect(targetFileObject, scoreThreshTest, detectionsPerImage) {
     const url = 'api/v1/detect/upload-file';
 
     // enctype="multipart/form-data" でデータを送信するためにFormDataにファイルを設定する
     const uploadData = new FormData();
     uploadData.append('pictureFile', targetFileObject);
+    uploadData.append('scoreThreshTest', scoreThreshTest);
+    uploadData.append('detectionsPerImage', detectionsPerImage);
     const reader = new FileReader();
     reader.onloadend = () => {
       this.setState({
@@ -136,10 +138,14 @@ class UploadForm extends React.Component {
 
     this.state = {
       uploadFile: null,
+      scoreThreshTest: 0.5,
+      detectionsPerImage: 100,
     }
 
     this.onUploadFileChange = this.onUploadFileChange.bind(this);
     this.onSubmitUploadFile = this.onSubmitUploadFile.bind(this);
+    this.onScoreThreshTestChange = this.onScoreThreshTestChange.bind(this);
+    this.onDetectionsPerImageChange = this.onDetectionsPerImageChange.bind(this);
   }
 
   onUploadFileChange(event) {
@@ -153,12 +159,21 @@ class UploadForm extends React.Component {
 
   onSubmitUploadFile(event) {
     event.preventDefault();
-    const { uploadFile } = this.state;
+    const { uploadFile, scoreThreshTest, detectionsPerImage } = this.state;
 
-    this.props.executeDetect(uploadFile);
+    this.props.executeDetect(uploadFile, scoreThreshTest, detectionsPerImage);
+  }
+
+  onScoreThreshTestChange(event) {
+    this.setState({scoreThreshTest: (event.target.value / 100).toFixed(2)});
+  }
+
+  onDetectionsPerImageChange(event) {
+    this.setState({detectionsPerImage: event.target.value});
   }
 
   render() {
+    console.log(this.state);
     return (
         <form onSubmit={this.onSubmitUploadFile}>
           <input
@@ -166,6 +181,27 @@ class UploadForm extends React.Component {
             accept='image/png, image/jpeg'
             onChange={this.onUploadFileChange}
           />
+          <label>
+            Score
+            <input
+              type='number'
+              max={100}
+              min={0}
+              step={1}
+              value={(this.state.scoreThreshTest * 100).toFixed()}
+              onChange={this.onScoreThreshTestChange}
+            />
+          </label>
+          %
+          <label>
+            Count
+            <input
+              type='number'
+              min={1}
+              value={this.state.detectionsPerImage}
+              onChange={this.onDetectionsPerImageChange}
+            />
+          </label>
           <input
             className='button'
             type='submit'
