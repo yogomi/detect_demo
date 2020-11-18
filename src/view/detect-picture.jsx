@@ -1,4 +1,5 @@
 import React from 'react';
+import DetectTypeSelector from './detect-type-selector';
 
 export default class DetectPicture extends React.Component {
   constructor(props) {
@@ -140,12 +141,25 @@ class UploadForm extends React.Component {
       uploadFile: null,
       scoreThreshTest: 0.5,
       detectionsPerImage: 100,
+      detectType: 'InstanceSegmentation',
     }
+
+    this.detectTypes = [
+      'Detection',  // 枠をつけるだけ
+      'PascalVOC-Detection',
+      'Keypoints',  // ボーンを検出
+      'Comporisons',
+      'Cityscapes',
+      'InstanceSegmentation',  // 初期のやつ
+      'LVISv1-InstanceSegmentation',
+      'PospanicSegmentation',  // 全部を何かしらに領域分けする
+    ];
 
     this.onUploadFileChange = this.onUploadFileChange.bind(this);
     this.onSubmitUploadFile = this.onSubmitUploadFile.bind(this);
     this.onScoreThreshTestChange = this.onScoreThreshTestChange.bind(this);
     this.onDetectionsPerImageChange = this.onDetectionsPerImageChange.bind(this);
+    this.onDetectTypeChange = this.onDetectTypeChange.bind(this);
   }
 
   onUploadFileChange(event) {
@@ -170,6 +184,10 @@ class UploadForm extends React.Component {
 
   onDetectionsPerImageChange(event) {
     this.setState({detectionsPerImage: event.target.value});
+  }
+
+  onDetectTypeChange(event) {
+    this.setState({detectType: event.target.value});
   }
 
   render() {
@@ -200,6 +218,14 @@ class UploadForm extends React.Component {
               min={1}
               value={this.state.detectionsPerImage}
               onChange={this.onDetectionsPerImageChange}
+            />
+          </label>
+          <label>
+            Detect Type
+            <DetectTypeSelector
+              detectTypes={this.detectTypes}
+              detectType={this.state.detectType}
+              onDetectTypeChange={this.onDetectTypeChange}
             />
           </label>
           <input
